@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+
 import connectDB from "./config/db.js";
+
 import authRoutes from "./routes/authRoutes.js";
 import stockRoutes from "./routes/stockRoutes.js";
 import tradeRoutes from "./routes/tradeRoutes.js";
@@ -20,25 +22,37 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
+  "https://stock-trading-simulatorsrdy.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
 app.disable("x-powered-by");
+
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+    origin: function (origin, callback) {
+      if (!origin) {
         return callback(null, true);
       }
 
-      return callback(new Error("Not allowed by CORS"));
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(null, false);
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
+app.options("*", cors());
+
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (req, res) => {
