@@ -64,10 +64,6 @@ function Leaderboard() {
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-1">
             Community Leaderboard
           </h1>
-
-          <p className="text-slate-400 text-sm md:text-base">
-            Top traders ranked by portfolio value, wallet balance and activity.
-          </p>
         </div>
 
         <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-semibold flex items-center gap-2 w-fit">
